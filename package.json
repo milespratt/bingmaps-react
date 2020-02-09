@@ -1,6 +1,16 @@
 {
   "name": "bingmaps-react",
-  "version": "0.2.0",
+  "description": "An easy to use Bing Maps component for React apps",
+  "author": {
+    "name": "Miles Pratt",
+    "email": "miles@thoughtpowder.com",
+    "url": "https://milespratt.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/milespratt/bingmaps-react"
+  },
+  "version": "0.3.0",
   "private": false,
   "module": "dist/BingmapsReact.js",
   "dependencies": {
@@ -16,7 +26,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "publish:npm": "rm -rf dist && mkdir dist &&  babel src/components -d dist --copy-files"
+    "publish:npm": "rm -rf dist && mkdir dist &&  babel src/components -d dist --copy-files && npm publish"
   },
   "babel": {
     "presets": [

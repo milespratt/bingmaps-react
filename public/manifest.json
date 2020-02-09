@@ -1,6 +1,6 @@
 {
   "short_name": "Bingmaps React",
-  "name": "A simple to use Bing Maps React component",
+  "name": "An easy to use Bing Maps component for React apps",
   "icons": [
     {
       "src": "favicon.ico",

@@ -7,8 +7,9 @@ function App() {
     disableBirdseye: false, // boolean
     disableMapTypeSelectorMouseOver: false, // boolean
     disableStreetside: false, // boolean
+    enableClickableLogo: true, // boolean
     navigationBarMode: "default", // default, compact, minified
-    showDashboard: true,
+    showDashboard: true, // boolean
     showMapTypeSelector: true, // boolean
     showScalebar: true, // boolean
     showTermsLink: true // boolean
@@ -46,6 +47,13 @@ function App() {
     <div className="maps__container">
       <div className="map__controls">
         {Object.keys(options)
+          .sort((a, b) =>
+            a.toLowerCase() < b.toLowerCase()
+              ? -1
+              : a.toLowerCase() > b.toLowerCase()
+              ? 1
+              : 0
+          )
           .filter(option => option !== "customMapStyle")
           .map(option => {
             return (
