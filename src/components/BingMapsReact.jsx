@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 
 export default function BingMapsReact({
-  bingMapsKey,
+  credentials,
   className,
   // cleanUp,
   customMapStyle,
@@ -50,7 +50,7 @@ export default function BingMapsReact({
         // create a new bing map and attached it to the #map div
         Maps.current = window.Microsoft.Maps;
         bingMap.current = new Maps.current.Map(`#${id}`, {
-          credentials: bingMapsKey,
+          credentials: credentials,
           customMapStyle,
           disableBirdseye,
           disableMapTypeSelectorMouseOver,
@@ -92,7 +92,7 @@ export default function BingMapsReact({
       // }
     };
   }, [
-    bingMapsKey,
+    credentials,
     bingMapsScriptSrc,
     // cleanUp,
     id,
@@ -113,17 +113,17 @@ export default function BingMapsReact({
 }
 
 BingMapsReact.defaultProps = {
-  bingMapsKey: undefined,
+  credentials: undefined,
   className: "bing__map",
   // cleanUp: true,
   customMapStyle: undefined,
   disableBirdseye: false,
   disableMapTypeSelectorMouseOver: false,
   disableStreetside: false,
-  disableStreetsideAutoCoverage: true,
+  disableStreetsideAutoCoverage: false,
   enableClickableLogo: true,
   id: "bing_map_0",
-  navMode: "default",
+  navigationBarMode: "default",
   showDashboard: true,
   showMapTypeSelector: true,
   showScalebar: true,

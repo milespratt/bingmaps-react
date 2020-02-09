@@ -10,6 +10,7 @@
     "type": "git",
     "url": "https://github.com/milespratt/bingmaps-react"
   },
+  "homepage": "https://github.com/milespratt/bingmaps-react",
   "version": "0.3.3",
   "private": false,
   "module": "dist/BingMapsReact.js",

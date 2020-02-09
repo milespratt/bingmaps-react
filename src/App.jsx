@@ -68,7 +68,7 @@ function App() {
       <div key="bingMap" className="map__card">
         <BingMapsReact
           {...options}
-          bingMapsKey={process.env.REACT_APP_BINGMAPS_KEY}
+          credentials={process.env.REACT_APP_BINGMAPS_KEY}
         />
       </div>
     </div>
