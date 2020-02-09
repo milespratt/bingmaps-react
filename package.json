@@ -10,9 +10,9 @@
     "type": "git",
     "url": "https://github.com/milespratt/bingmaps-react"
   },
-  "version": "0.3.0",
+  "version": "0.3.3",
   "private": false,
-  "module": "dist/BingmapsReact.js",
+  "module": "dist/BingMapsReact.js",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.0",
