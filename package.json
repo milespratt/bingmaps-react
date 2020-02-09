@@ -11,7 +11,7 @@
     "url": "https://github.com/milespratt/bingmaps-react"
   },
   "homepage": "https://github.com/milespratt/bingmaps-react",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "private": false,
   "module": "dist/BingMapsReact.js",
   "dependencies": {
