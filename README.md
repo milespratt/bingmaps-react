@@ -1,12 +1,12 @@
+<img align="right" width="100" height="100" src="https://github.com/milespratt/bingmaps-react/blob/master/src/assets/logo.png?raw=true">
+
 # Bing Maps - React
 
-![Bing Maps - React][logo]
+An easy to use Bing Maps component for React apps. View the [demo](https://bingmaps-react.netlify.com).
 
-[logo]: https://github.com/milespratt/bingmaps-react/src/assets/logo.png "Bing Maps - React"
-
-An easy to use Bing Maps component for React apps.
-
-[Demo](https://bingmaps-react.netlify.com)
+<p align="center">
+  <img align="center" width="500" height="500" src="https://github.com/milespratt/bingmaps-react/blob/master/src/assets/screenshot.png?raw=true">
+</p>
 
 ## Prerequisites
 
