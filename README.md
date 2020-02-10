@@ -1,4 +1,4 @@
-[![Maintainability](https://api.codeclimate.com/v1/badges/b81f96d501e3f41bf2cc/maintainability)](https://codeclimate.com/github/milespratt/bingmaps-react/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/b81f96d501e3f41bf2cc/test_coverage)]
+[![Maintainability](https://api.codeclimate.com/v1/badges/b81f96d501e3f41bf2cc/maintainability)](https://codeclimate.com/github/milespratt/bingmaps-react/maintainability) [![Build Status](https://travis-ci.com/milespratt/bingmaps-react.svg?branch=master)](https://travis-ci.com/milespratt/bingmaps-react)
 
 <img align="right" width="100" height="100" src="https://github.com/milespratt/bingmaps-react/blob/master/src/assets/logo.png?raw=true">
 
