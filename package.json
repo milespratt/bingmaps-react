@@ -32,10 +32,19 @@
     "react-scripts": "3.3.1",
     "react-test-renderer": "^16.12.0"
   },
+  "jest": {
+    "collectCoverageFrom": [
+      "**/src/*.{js,jsx}",
+      "**/src/components/*.{js,jsx}",
+      "!**/node_modules/**",
+      "!**/src/index.js",
+      "!**/src/serviceWorker.js"
+    ]
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --coverage --watchAll=false",
     "eject": "react-scripts eject",
     "publish:npm": "rm -rf dist && mkdir dist &&  babel src/components -d dist --copy-files && npm publish"
   },

@@ -1,7 +1,8 @@
 import React from "react";
-import { mount } from "enzyme";
+import ReactDOM from "react-dom";
 import BingMapsReact from "./components/BingMapsReact";
 
 it("renders without crashing", () => {
-  mount(<BingMapsReact />);
+  const div = document.createElement("div");
+  ReactDOM.render(<BingMapsReact />, div);
 });

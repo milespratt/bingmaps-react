@@ -1,7 +1,8 @@
 import React from "react";
-import { mount } from "enzyme";
+import ReactDOM from "react-dom";
 import App from "./App";
 
 it("renders without crashing", () => {
-  mount(<App />);
+  const div = document.createElement("div");
+  ReactDOM.render(<App />, div);
 });
