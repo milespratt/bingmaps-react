@@ -3,7 +3,6 @@ import React, { useEffect, useRef } from "react";
 export default function BingMapsReact({
   credentials,
   className,
-  // cleanUp,
   customMapStyle,
   disableBirdseye,
   disableMapTypeSelectorMouseOver,
@@ -24,6 +23,7 @@ export default function BingMapsReact({
   const bingMap = useRef(null);
   // call Maps.current to access properties on the Maps class
   const Maps = useRef(null);
+  const scriptLoadInterval = useRef(null);
 
   // load bing maps script to DOM on mount
   useEffect(() => {
@@ -42,11 +42,11 @@ export default function BingMapsReact({
     }
 
     // start interval to check for script load
-    const checkLoadInterval = window.setInterval(() => {
+    scriptLoadInterval.current = window.setInterval(() => {
       // window.Microsoft will be available when the script loads
       if (window.Microsoft !== undefined) {
         // clear the interval
-        window.clearInterval(checkLoadInterval);
+        window.clearInterval(scriptLoadInterval.current);
         // create a new bing map and attached it to the #map div
         Maps.current = window.Microsoft.Maps;
         bingMap.current = new Maps.current.Map(`#${id}`, {
@@ -69,32 +69,11 @@ export default function BingMapsReact({
     // remove the bingmaps script tags, link tags, and clear the interval when the component unmounts
     return () => {
       // clear the interval
-      window.clearInterval(checkLoadInterval);
-      // if (cleanUp) {
-      //   // get all the bing scripts
-      //   const bingScripts = document.querySelectorAll(
-      //     'script[src*="bing.com"]'
-      //   );
-      //   // get all the bing links
-      //   const bingLinks = document.querySelectorAll('link[href*="bing.com"]');
-      //   // remove the manually added script bing maps scripts
-      //   document.head.removeChild(scriptTag);
-      //   // remove all of the other bing scripts
-      //   bingScripts.forEach(
-      //     scriptTag =>
-      //       scriptTag.parentNode && scriptTag.parentNode.removeChild(scriptTag)
-      //   );
-      //   // remove all of the bing links
-      //   bingLinks.forEach(
-      //     linkTag =>
-      //       linkTag.parentNode && linkTag.parentNode.removeChild(linkTag)
-      //   );
-      // }
+      window.clearInterval(scriptLoadInterval.current);
     };
   }, [
     credentials,
     bingMapsScriptSrc,
-    // cleanUp,
     id,
     customMapStyle,
     disableBirdseye,
@@ -115,7 +94,6 @@ export default function BingMapsReact({
 BingMapsReact.defaultProps = {
   credentials: undefined,
   className: "bing__map",
-  // cleanUp: true,
   customMapStyle: undefined,
   disableBirdseye: false,
   disableMapTypeSelectorMouseOver: false,
