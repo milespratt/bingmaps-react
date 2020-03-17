@@ -10,33 +10,37 @@ export default function BingMapsReact({
   const scriptLoadInterval = useRef(null);
   const mapContainer = useRef(null);
 
-  const initMap = useCallback(() => {
-    function makeMap() {
-      const { Maps } = window.Microsoft;
-      const options = { ...mapOptions };
-      if (mapOptions && mapOptions.navigationBarMode) {
-        options.navigationBarMode =
-          Maps.NavigationBarMode[mapOptions.navigationBarMode];
-      }
-      if (mapOptions && mapOptions.navigationBarOrientation) {
-        options.navigationBarOrientation =
-          Maps.NavigationBarOrientation[mapOptions.navigationBarOrientation];
-      }
-      if (mapOptions && mapOptions.supportedMapTypes) {
-        options.supportedMapTypes = mapOptions.supportedMapTypes.map(
-          type => Maps.MapTypeId[type]
-        );
-      }
-      const newMap = new Maps.Map(mapContainer.current, {});
-      newMap.setOptions(options);
-    }
+  const appendBingMapsScript = useCallback(() => {
+    const scriptTag = document.createElement("script");
+    scriptTag.src = `https://www.bing.com/api/maps/mapcontrol?key=${bingMapsKey}`;
+    document.body.appendChild(scriptTag);
+  }, [bingMapsKey]);
 
+  const makeMap = useCallback(() => {
+    const { Maps } = window.Microsoft;
+    const options = { ...mapOptions };
+    if (mapOptions && mapOptions.navigationBarMode) {
+      options.navigationBarMode =
+        Maps.NavigationBarMode[mapOptions.navigationBarMode];
+    }
+    if (mapOptions && mapOptions.navigationBarOrientation) {
+      options.navigationBarOrientation =
+        Maps.NavigationBarOrientation[mapOptions.navigationBarOrientation];
+    }
+    if (mapOptions && mapOptions.supportedMapTypes) {
+      options.supportedMapTypes = mapOptions.supportedMapTypes.map(
+        type => Maps.MapTypeId[type]
+      );
+    }
+    const newMap = new Maps.Map(mapContainer.current, {});
+    newMap.setOptions(options);
+  }, [mapOptions]);
+
+  const initMap = useCallback(() => {
     if (window.Microsoft && window.Microsoft.Maps) {
       makeMap();
     } else {
-      const scriptTag = document.createElement("script");
-      scriptTag.src = `https://www.bing.com/api/maps/mapcontrol?key=${bingMapsKey}`;
-      document.body.appendChild(scriptTag);
+      appendBingMapsScript();
       scriptLoadInterval.current = window.setInterval(() => {
         if (window.Microsoft && window.Microsoft.Maps) {
           window.clearInterval(scriptLoadInterval.current);
@@ -44,7 +48,7 @@ export default function BingMapsReact({
         }
       }, 500);
     }
-  }, [bingMapsKey, mapOptions]);
+  }, [appendBingMapsScript, makeMap]);
 
   useEffect(() => {
     initMap();
