@@ -16,6 +16,10 @@ You must have a Bing Maps API key to take full advantage of this component. You 
 
 ## Installation
 
+`yarn add bingmaps-react`
+
+OR
+
 `npm install bingmaps-react`
 
 ## Usage
@@ -29,10 +33,21 @@ import BingMapsReact from "bingmaps-react";
 Render the component, passing in your bing maps API key
 
 ```javascript
-<BingMapsReact credentials="YOUR BING MAPS API KEY" />
+<BingMapsReact bingMapsKey="BING_MAPS_KEY" />
 ```
 
-Example:
+Minimal Example:
+
+```javascript
+import React from "react";
+import BingMapsReact from "bingmaps-react";
+
+function MyReactApp() {
+  return <BingMapsReact bingMapsKey="1a2b3c4d5e6f7g8h9i0j" />;
+}
+```
+
+Customized Example:
 
 ```javascript
 import React from "react";
@@ -40,37 +55,37 @@ import BingMapsReact from "bingmaps-react";
 
 function MyReactApp() {
   return (
-    <div>
-      <BingMapsReact credentials="YOUR BING MAPS API KEY" />
-    </div>
+    <BingMapsReact
+      bingMapsKey="1a2b3c4d5e6f7g8h9i0j"
+      height="500px"
+      mapOptions={{
+        customMapStyle: {
+          elements: {
+            area: { fillColor: "#b6e591" },
+            water: { fillColor: "#75cff0" },
+            tollRoad: { fillColor: "#a964f4", strokeColor: "#a964f4" },
+            arterialRoad: { fillColor: "#ffffff", strokeColor: "#d7dae7" },
+            road: { fillColor: "#ffa35a", strokeColor: "#ff9c4f" },
+            street: { fillColor: "#ffffff", strokeColor: "#ffffff" },
+            transit: { fillColor: "#000000" }
+          },
+          settings: {
+            landColor: "#efe9e1"
+          }
+        },
+        navigationBarMode: "square"
+      }}
+      width="500px"
+    />
   );
 }
 ```
 
-## Available Props
+## Props
 
-#### Component Specific
-
-| Prop      | Type   | Default     |
-| --------- | ------ | ----------- |
-| className | string | bing\_\_map |
-| id        | string | bing_map_0  |
-
-#### Bing Maps Specific
-
-Each of these props control one of the Bing Maps Map Options. See the [MapOptions Object documentation](https://docs.microsoft.com/en-us/bingmaps/v8-web-control/map-control-api/mapoptions-object) for more information about each option.
-
-| Prop                            | Type    | Default   |
-| ------------------------------- | ------- | --------- |
-| credentials                     | string  | undefined |
-| customMapStyle                  | string  | undefined |
-| disableBirdseye                 | boolean | false     |
-| disableMapTypeSelectorMouseOver | boolean | false     |
-| disableStreetside               | boolean | false     |
-| disableStreetsideAutoCoverage   | boolean | false     |
-| enableClickableLogo             | boolean | true      |
-| navigationBarMode               | string  | default   |
-| showDashboard                   | boolean | true      |
-| showMapTypeSelector             | boolean | true      |
-| showScalebar                    | boolean | true      |
-| showTermsLink                   | boolean | true      |
+| Prop        | Type   | Default   | Note                                                                                                                                                                                                         |
+| ----------- | ------ | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| bingMapsKey | string | undefined | Your API                                                                                                                                                                                                     |
+| height      | string | "100%"    |                                                                                                                                                                                                              |
+| mapOptions  | object | undefined | A Bing Maps MapOptions Object. See the [MapOptions Object documentation](https://docs.microsoft.com/en-us/bingmaps/v8-web-control/map-control-api/mapoptions-object) for more information about each option. |
+| width       | string | "100%"    |
