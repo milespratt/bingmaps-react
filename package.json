@@ -18,7 +18,7 @@
     "type": "git",
     "url": "https://github.com/milespratt/bingmaps-react"
   },
-  "version": "0.3.7",
+  "version": "0.3.8",
   "private": false,
   "module": "dist/BingMapsReact.js",
   "dependencies": {
@@ -27,7 +27,7 @@
     "@testing-library/user-event": "^7.2.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-scripts": "3.3.1"
+    "react-scripts": "3.4.0"
   },
   "jest": {
     "collectCoverageFrom": [
