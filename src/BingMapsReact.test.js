@@ -41,7 +41,7 @@ it("should render with custom map options", async () => {
   initGlobal();
   render(
     <BingMapsReact
-      customMapOptions={{
+      mapOptions={{
         navigationBarMode: "test",
         navigationBarOrientation: "test",
         supportedMapTypes: ["test"]
