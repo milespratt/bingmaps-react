@@ -1,110 +1,70 @@
-import React, { useEffect, useRef } from "react";
+// DEPENDENCIES
+import React, { useEffect, useRef, useCallback } from "react";
 export default function BingMapsReact({
-  credentials,
-  className,
-  // cleanUp,
-  customMapStyle,
-  disableBirdseye,
-  disableMapTypeSelectorMouseOver,
-  disableStreetside,
-  disableStreetsideAutoCoverage,
-  enableClickableLogo,
-  id,
-  navigationBarMode,
-  showDashboard,
-  showMapTypeSelector,
-  showScalebar,
-  showTermsLink
+  bingMapsKey,
+  mapOptions,
+  height,
+  width
 }) {
-  const bingMapsScriptSrc = `https://www.bing.com/api/maps/mapcontrol?callback=GetMap`; // refs to store bing map and Maps class once loaded
-  // call bingMap.current to perform actions on the bingmap
-
-  const bingMap = useRef(null); // call Maps.current to access properties on the Maps class
-
-  const Maps = useRef(null); // load bing maps script to DOM on mount
-
-  useEffect(() => {
-    // create script element for bing maps script
-    const scriptTag = document.createElement("script"); // only add the script tag if it doesnt already exist
-    // will prevent duplicate scripts in the event that multiple maps are mounted
-
-    if (document.querySelector(`script[src="${bingMapsScriptSrc}"]`) === null) {
-      // set script attributes
-      scriptTag.defer = true;
-      scriptTag.src = bingMapsScriptSrc; // append script to document head
-
-      document.head.appendChild(scriptTag);
-    } // start interval to check for script load
-
-
-    const checkLoadInterval = window.setInterval(() => {
-      // window.Microsoft will be available when the script loads
-      if (window.Microsoft !== undefined) {
-        // clear the interval
-        window.clearInterval(checkLoadInterval); // create a new bing map and attached it to the #map div
-
-        Maps.current = window.Microsoft.Maps;
-        bingMap.current = new Maps.current.Map(`#${id}`, {
-          credentials: credentials,
-          customMapStyle,
-          disableBirdseye,
-          disableMapTypeSelectorMouseOver,
-          disableStreetside,
-          disableStreetsideAutoCoverage,
-          enableClickableLogo,
-          navigationBarMode: Maps.current.NavigationBarMode[navigationBarMode],
-          showDashboard,
-          showMapTypeSelector,
-          showScalebar,
-          showTermsLink
-        });
-      }
-    }, 500); // remove the bingmaps script tags, link tags, and clear the interval when the component unmounts
-
-    return () => {
-      // clear the interval
-      window.clearInterval(checkLoadInterval); // if (cleanUp) {
-      //   // get all the bing scripts
-      //   const bingScripts = document.querySelectorAll(
-      //     'script[src*="bing.com"]'
-      //   );
-      //   // get all the bing links
-      //   const bingLinks = document.querySelectorAll('link[href*="bing.com"]');
-      //   // remove the manually added script bing maps scripts
-      //   document.head.removeChild(scriptTag);
-      //   // remove all of the other bing scripts
-      //   bingScripts.forEach(
-      //     scriptTag =>
-      //       scriptTag.parentNode && scriptTag.parentNode.removeChild(scriptTag)
-      //   );
-      //   // remove all of the bing links
-      //   bingLinks.forEach(
-      //     linkTag =>
-      //       linkTag.parentNode && linkTag.parentNode.removeChild(linkTag)
-      //   );
-      // }
+  const scriptLoadInterval = useRef(null);
+  const mapContainer = useRef(null);
+  const appendBingMapsScript = useCallback(() => {
+    const scriptTag = document.createElement("script");
+    scriptTag.src = `https://www.bing.com/api/maps/mapcontrol?key=${bingMapsKey}`;
+    document.body.appendChild(scriptTag);
+  }, [bingMapsKey]);
+  const makeMap = useCallback(() => {
+    const {
+      Maps
+    } = window.Microsoft;
+    const options = { ...mapOptions
     };
-  }, [credentials, bingMapsScriptSrc, // cleanUp,
-  id, customMapStyle, disableBirdseye, disableMapTypeSelectorMouseOver, disableStreetside, disableStreetsideAutoCoverage, enableClickableLogo, navigationBarMode, showDashboard, showMapTypeSelector, showScalebar, showTermsLink]);
+
+    if (mapOptions && mapOptions.navigationBarMode) {
+      options.navigationBarMode = Maps.NavigationBarMode[mapOptions.navigationBarMode];
+    }
+
+    if (mapOptions && mapOptions.navigationBarOrientation) {
+      options.navigationBarOrientation = Maps.NavigationBarOrientation[mapOptions.navigationBarOrientation];
+    }
+
+    if (mapOptions && mapOptions.supportedMapTypes) {
+      options.supportedMapTypes = mapOptions.supportedMapTypes.map(type => Maps.MapTypeId[type]);
+    }
+
+    const newMap = new Maps.Map(mapContainer.current, {});
+    newMap.setOptions(options);
+  }, [mapOptions]);
+  const initMap = useCallback(() => {
+    if (window.Microsoft && window.Microsoft.Maps) {
+      makeMap();
+    } else {
+      appendBingMapsScript();
+      scriptLoadInterval.current = window.setInterval(() => {
+        if (window.Microsoft && window.Microsoft.Maps) {
+          window.clearInterval(scriptLoadInterval.current);
+          makeMap();
+        }
+      }, 500);
+    }
+  }, [appendBingMapsScript, makeMap]);
+  useEffect(() => {
+    initMap();
+    return () => {
+      window.clearInterval(scriptLoadInterval.current);
+    };
+  }, [bingMapsKey, initMap]);
   return React.createElement("div", {
-    className: className,
-    id: id
+    ref: mapContainer,
+    style: {
+      height: height,
+      width: width
+    }
   });
 }
 BingMapsReact.defaultProps = {
-  credentials: undefined,
-  className: "bing__map",
-  // cleanUp: true,
-  customMapStyle: undefined,
-  disableBirdseye: false,
-  disableMapTypeSelectorMouseOver: false,
-  disableStreetside: false,
-  disableStreetsideAutoCoverage: false,
-  enableClickableLogo: true,
-  id: "bing_map_0",
-  navigationBarMode: "default",
-  showDashboard: true,
-  showMapTypeSelector: true,
-  showScalebar: true,
-  showTermsLink: true
+  bingMapsKey: undefined,
+  mapOptions: undefined,
+  height: "100%",
+  width: "100%"
 };
