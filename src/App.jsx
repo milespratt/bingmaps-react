@@ -1,16 +1,15 @@
 import React, { useState, useRef } from "react";
 import BingMapsReact from "./components/BingMapsReact";
-import svgMarker from "./assets/marker.svg";
+// import svgMarker from "./assets/marker.svg";
 // import pngMarker from "./assets/marker.png";
 import logo from "./assets/logo.png";
 
 import { defaultMapOptions } from "./config";
-import { maxHeaderSize } from "http";
 
 function App() {
   const textArea = useRef(null);
   // const [viewOptions, setViewOptions] = useState({ mapTypeId: "grayscale" });
-  const [viewOptions, setViewOptions] = useState(null);
+  const viewOptions = null;
   const [mapOptions, setMapOptions] = useState({
     allowHidingLabelsOfRoad: false,
     allowInfoboxOverflow: false,
