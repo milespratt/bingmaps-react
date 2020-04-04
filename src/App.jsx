@@ -104,23 +104,32 @@ function App() {
           //     }
           //   }
           // ]}
-          // pushPinsWithInfoboxes={[
-          //   {
-          //     center: {
-          //       latitude: 42.35933,
-          //       longitude: -71.19325
-          //     },
-          //     options: {
-          //       // icon: svgMarker,
-          //       enableHoverStyle: true,
-          //       title: "Pushpin",
-          //       subTitle: "With Infobox"
-          //     },
-          //     // infoboxHtml:
-          //     //   "<div style='background: white; border-radius: 5px; padding: 5px'>hey there</div>",
-          //     metadata: { title: "infobox", description: "description" }
-          //   }
-          // ]}
+          pushPinsWithInfoboxes={[
+            {
+              center: {
+                latitude: 42.35933,
+                longitude: -71.19325
+              },
+              options: {
+                // icon: svgMarker,
+                enableHoverStyle: true,
+                title: "Pushpin",
+                subTitle: "With Infobox"
+              },
+              infoboxHtml: `
+              <div class="map__infobox">
+                <div class="infobox__user__details">
+                  <div class="infobox__user__image"></div>
+                  <div class="infobox__user__name">
+                    <span>Jane Doe</span>
+                    <a href="#" className="">View Profile</a>
+                  </div>
+                </div>
+                <button>Invite to meetup</button>
+              </div>`,
+              metadata: { title: "infobox", description: "description" }
+            }
+          ]}
         />
       </div>
       <div className="map__config">

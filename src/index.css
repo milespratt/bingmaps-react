@@ -90,6 +90,35 @@ label:last-child {
   font-size: 20px;
 }
 
+.map__infobox {
+  position: absolute;
+  width: 300px;
+  left: -150px;
+  background: white;
+}
+
+.infobox__user__details {
+  display: grid;
+  grid-template-columns: min-content 1fr;
+  align-items: center;
+}
+.infobox__user__image {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  background: skyblue;
+}
+.infobox__user__name {
+  display: flex;
+  flex-direction: column;
+}
+
+.map__infobox button {
+  width: 100%;
+  background: lightskyblue;
+  border: none;
+}
+
 @media (max-width: 800px), (max-height: 600px) {
   .maps__container {
     grid-template-columns: 1fr;
