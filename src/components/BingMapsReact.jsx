@@ -12,8 +12,10 @@ export default function BingMapsReact({
 }) {
   const scriptLoadInterval = useRef(null);
   const mapContainer = useRef(null);
+  const map = useRef(null);
 
   function addPushpinsWithInfoboxes(pushPinsToAdd, infobox, map, Maps) {
+    console.log("add pushpins with infoboxes function");
     pushPinsToAdd.forEach(pushPin => {
       const newPin = new Maps.Pushpin(pushPin.center, pushPin.options);
       newPin.metadata = pushPin.metadata;
@@ -37,6 +39,7 @@ export default function BingMapsReact({
   }
 
   function addPushpins(pushPinsToAdd, map, Maps) {
+    console.log("add pushpins function");
     pushPinsToAdd.forEach(pushPin => {
       const newPin = new Maps.Pushpin(pushPin.center, pushPin.options);
       map.entities.push(newPin);
@@ -44,6 +47,7 @@ export default function BingMapsReact({
   }
 
   function setMapViewOptions(map, viewOptions, Maps) {
+    console.log("set view options function");
     const options = { ...viewOptions };
     console.log(viewOptions.mapTypeId);
     if (viewOptions.mapTypeId) {
@@ -53,6 +57,7 @@ export default function BingMapsReact({
   }
 
   function setMapOptions(map, mapOptions, Maps) {
+    console.log("set map options function");
     const options = { ...mapOptions };
     if (mapOptions.navigationBarMode) {
       options.navigationBarMode =
@@ -71,38 +76,48 @@ export default function BingMapsReact({
   }
 
   const makeMap = useCallback(() => {
+    console.log("make map callback");
     const { Maps } = window.Microsoft;
 
-    const newMap = new Maps.Map(mapContainer.current);
+    if (!map.current) {
+      map.current = new Maps.Map(mapContainer.current);
+    }
     if (viewOptions) {
-      setMapViewOptions(newMap, viewOptions, Maps);
+      setMapViewOptions(map.current, viewOptions, Maps);
     }
     if (mapOptions) {
-      setMapOptions(newMap, mapOptions, Maps);
+      setMapOptions(map.current, mapOptions, Maps);
     }
 
     // PUSH PINS
     if (pushPins) {
-      addPushpins(pushPins, newMap, Maps);
+      addPushpins(pushPins, map.current, Maps);
     }
 
     // PUSH PINS WITH INFO BOXES
     if (pushPinsWithInfoboxes) {
-      const infobox = new Maps.Infobox(newMap.getCenter(), {
+      const infobox = new Maps.Infobox(map.current.getCenter(), {
         visible: false
       });
-      infobox.setMap(newMap);
-      addPushpinsWithInfoboxes(pushPinsWithInfoboxes, infobox, newMap, Maps);
+      infobox.setMap(map.current);
+      addPushpinsWithInfoboxes(
+        pushPinsWithInfoboxes,
+        infobox,
+        map.current,
+        Maps
+      );
     }
   }, [mapOptions, viewOptions, pushPins, pushPinsWithInfoboxes]);
 
   const appendBingMapsScript = useCallback(() => {
+    console.log("append script callback");
     const scriptTag = document.createElement("script");
     scriptTag.src = `https://www.bing.com/api/maps/mapcontrol?key=${bingMapsKey}`;
     document.body.appendChild(scriptTag);
   }, [bingMapsKey]);
 
   const initMap = useCallback(() => {
+    console.log("init map callback");
     if (window.Microsoft && window.Microsoft.Maps) {
       makeMap();
     } else {
@@ -117,6 +132,7 @@ export default function BingMapsReact({
   }, [appendBingMapsScript, makeMap]);
 
   useEffect(() => {
+    console.log("first load");
     initMap();
     return () => {
       window.clearInterval(scriptLoadInterval.current);
