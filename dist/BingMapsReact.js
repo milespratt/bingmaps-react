@@ -9,10 +9,23 @@ export default function BingMapsReact({
   viewOptions,
   width
 }) {
-  const scriptLoadInterval = useRef(null);
+  // refs
   const mapContainer = useRef(null);
+  const map = useRef(null); // removes pushpins
+
+  function removePushpins(map, Maps) {
+    for (var i = map.entities.getLength() - 1; i >= 0; i--) {
+      var pushpin = map.entities.get(i);
+
+      if (pushpin instanceof Maps.Pushpin) {
+        map.entities.removeAt(i);
+      }
+    }
+  } // add pushpins with infoboxes
+
 
   function addPushpinsWithInfoboxes(pushPinsToAdd, infobox, map, Maps) {
+    removePushpins(map, Maps);
     pushPinsToAdd.forEach(pushPin => {
       const newPin = new Maps.Pushpin(pushPin.center, pushPin.options);
       newPin.metadata = pushPin.metadata;
@@ -32,30 +45,33 @@ export default function BingMapsReact({
       });
       map.entities.push(newPin);
     });
-  }
+  } // add pushpins
+
 
   function addPushpins(pushPinsToAdd, map, Maps) {
     pushPinsToAdd.forEach(pushPin => {
       const newPin = new Maps.Pushpin(pushPin.center, pushPin.options);
       map.entities.push(newPin);
     });
-  }
+  } // set view options
+
 
   function setMapViewOptions(map, viewOptions, Maps) {
     const options = { ...viewOptions
     };
-    console.log(viewOptions.mapTypeId);
 
     if (viewOptions.mapTypeId) {
       options.mapTypeId = Maps.MapTypeId[viewOptions.mapTypeId];
     }
 
     map.setView(options);
-  }
+  } // set map options
+
 
   function setMapOptions(map, mapOptions, Maps) {
     const options = { ...mapOptions
-    };
+    }; // some map options require values from the Maps class
+    // these conditional statements handle those cases
 
     if (mapOptions.navigationBarMode) {
       options.navigationBarMode = Maps.NavigationBarMode[mapOptions.navigationBarMode];
@@ -70,59 +86,64 @@ export default function BingMapsReact({
     }
 
     map.setOptions(options);
-  }
+  } // make map, set options, add pins
+
 
   const makeMap = useCallback(() => {
     const {
       Maps
-    } = window.Microsoft;
-    const newMap = new Maps.Map(mapContainer.current);
+    } = window.Microsoft; // only make a new map if one doesnt already exist
+
+    if (!map.current) {
+      map.current = new Maps.Map(mapContainer.current);
+    } // set viewOptions, if any
+
 
     if (viewOptions) {
-      setMapViewOptions(newMap, viewOptions, Maps);
-    }
+      setMapViewOptions(map.current, viewOptions, Maps);
+    } // set mapOptions, if any
+
 
     if (mapOptions) {
-      setMapOptions(newMap, mapOptions, Maps);
-    } // PUSH PINS
+      setMapOptions(map.current, mapOptions, Maps);
+    } // add push pins, if any
 
 
     if (pushPins) {
-      addPushpins(pushPins, newMap, Maps);
-    } // PUSH PINS WITH INFO BOXES
+      addPushpins(pushPins, map.current, Maps);
+    } // add infoboxes, if any
 
 
     if (pushPinsWithInfoboxes) {
-      const infobox = new Maps.Infobox(newMap.getCenter(), {
+      const infobox = new Maps.Infobox(map.current.getCenter(), {
         visible: false
       });
-      infobox.setMap(newMap);
-      addPushpinsWithInfoboxes(pushPinsWithInfoboxes, infobox, newMap, Maps);
+      infobox.setMap(map.current);
+      addPushpinsWithInfoboxes(pushPinsWithInfoboxes, infobox, map.current, Maps);
     }
-  }, [mapOptions, viewOptions, pushPins, pushPinsWithInfoboxes]);
+  }, [mapOptions, viewOptions, pushPins, pushPinsWithInfoboxes]); // attach makeMap to window for the bingmaps sript callback
+
+  window.makeMap = makeMap; // append bingmaps script to body
+
   const appendBingMapsScript = useCallback(() => {
     const scriptTag = document.createElement("script");
-    scriptTag.src = `https://www.bing.com/api/maps/mapcontrol?key=${bingMapsKey}`;
+    scriptTag.setAttribute("defer", "");
+    scriptTag.setAttribute("async", "");
+    scriptTag.setAttribute("type", "text/javascript");
+    scriptTag.setAttribute("src", `https://www.bing.com/api/maps/mapcontrol?key=${bingMapsKey}&callback=makeMap`);
     document.body.appendChild(scriptTag);
-  }, [bingMapsKey]);
+  }, [bingMapsKey]); // make a new map if bingmaps classes already exist
+  // append the script if not
+
   const initMap = useCallback(() => {
     if (window.Microsoft && window.Microsoft.Maps) {
       makeMap();
     } else {
       appendBingMapsScript();
-      scriptLoadInterval.current = window.setInterval(() => {
-        if (window.Microsoft && window.Microsoft.Maps) {
-          window.clearInterval(scriptLoadInterval.current);
-          makeMap();
-        }
-      }, 500);
     }
   }, [appendBingMapsScript, makeMap]);
   useEffect(() => {
     initMap();
-    return () => {
-      window.clearInterval(scriptLoadInterval.current);
-    };
   }, [bingMapsKey, initMap]);
   return React.createElement("div", {
     ref: mapContainer,
