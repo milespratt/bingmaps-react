@@ -8,9 +8,13 @@ import { defaultMapOptions } from "./config";
 
 function App() {
   const textArea = useRef(null);
-  // const [viewOptions, setViewOptions] = useState({ mapTypeId: "grayscale" });
-  const viewOptions = null;
-  const [mapOptions, setMapOptions] = useState({ ...defaultMapOptions });
+  const [viewOptions, setViewOptions] = useState({
+    // mapTypeId: "grayscale",
+    center: { latitude: 42.360081, longitude: -71.058884 }
+  });
+  const [mapOptions, setMapOptions] = useState({
+    ...defaultMapOptions
+  });
   function renderOption(option, value) {
     if (
       option === "navigationBarMode" ||
@@ -38,6 +42,9 @@ function App() {
           )}
         </select>
       );
+    }
+    if (option === "center") {
+      return;
     }
     switch (typeof value) {
       case "boolean":

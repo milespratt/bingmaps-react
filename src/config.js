@@ -17,6 +17,7 @@ export const defaultMapOptions = {
   //     landColor: "#efe9e1"
   //   }
   // },
+
   disableBirdseye: false,
   disableKeyboardInput: false,
   disableMapTypeSelectorMouseOver: false,
