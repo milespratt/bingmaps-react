@@ -2,8 +2,8 @@
 import React, { useEffect, useRef, useCallback } from "react";
 export default function BingMapsReact({
   bingMapsKey,
-  mapOptions,
   height,
+  mapOptions,
   pushPins,
   pushPinsWithInfoboxes,
   viewOptions,
@@ -24,7 +24,7 @@ export default function BingMapsReact({
   } // add pushpins with infoboxes
 
 
-  function addPushpinsWithInfoboxes(pushPinsToAdd, infobox, map, Maps) {
+  const addPushpinsWithInfoboxes = useCallback((pushPinsToAdd, infobox, map, Maps) => {
     removePushpins(map, Maps);
     pushPinsToAdd.forEach(pushPin => {
       const newPin = new Maps.Pushpin(pushPin.center, pushPin.options);
@@ -45,8 +45,7 @@ export default function BingMapsReact({
       });
       map.entities.push(newPin);
     });
-  } // add pushpins
-
+  }, []); // add pushpins
 
   function addPushpins(pushPinsToAdd, map, Maps) {
     pushPinsToAdd.forEach(pushPin => {
@@ -96,7 +95,7 @@ export default function BingMapsReact({
   const makeMap = useCallback(() => {
     const {
       Maps
-    } = window.Microsoft; // only make a new map if one doesnt already exist
+    } = window.Microsoft; // only make a new map if one doesn't already exist
 
     if (!map.current) {
       map.current = new Maps.Map(mapContainer.current);
@@ -125,7 +124,7 @@ export default function BingMapsReact({
       infobox.setMap(map.current);
       addPushpinsWithInfoboxes(pushPinsWithInfoboxes, infobox, map.current, Maps);
     }
-  }, [mapOptions, viewOptions, pushPins, pushPinsWithInfoboxes]); // attach makeMap to window for the bingmaps sript callback
+  }, [mapOptions, viewOptions, pushPins, pushPinsWithInfoboxes, addPushpinsWithInfoboxes]); // attach makeMap to window for the bingmaps script callback
 
   window.makeMap = makeMap; // append bingmaps script to body
 
