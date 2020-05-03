@@ -3,8 +3,8 @@ import React, { useEffect, useRef, useCallback } from "react";
 
 export default function BingMapsReact({
   bingMapsKey,
-  mapOptions,
   height,
+  mapOptions,
   pushPins,
   pushPinsWithInfoboxes,
   viewOptions,
@@ -25,29 +25,32 @@ export default function BingMapsReact({
   }
 
   // add pushpins with infoboxes
-  function addPushpinsWithInfoboxes(pushPinsToAdd, infobox, map, Maps) {
-    removePushpins(map, Maps);
-    pushPinsToAdd.forEach(pushPin => {
-      const newPin = new Maps.Pushpin(pushPin.center, pushPin.options);
-      newPin.metadata = pushPin.metadata;
+  const addPushpinsWithInfoboxes = useCallback(
+    (pushPinsToAdd, infobox, map, Maps) => {
+      removePushpins(map, Maps);
+      pushPinsToAdd.forEach(pushPin => {
+        const newPin = new Maps.Pushpin(pushPin.center, pushPin.options);
+        newPin.metadata = pushPin.metadata;
 
-      Maps.Events.addHandler(newPin, "mouseover", e => {
-        infobox.setOptions({
-          location: e.target.getLocation(),
-          title: e.target.metadata.title,
-          description: e.target.metadata.description,
-          visible: true,
-          htmlContent: pushPin.infoboxHtml
+        Maps.Events.addHandler(newPin, "mouseover", e => {
+          infobox.setOptions({
+            location: e.target.getLocation(),
+            title: e.target.metadata.title,
+            description: e.target.metadata.description,
+            visible: true,
+            htmlContent: pushPin.infoboxHtml
+          });
         });
-      });
-      Maps.Events.addHandler(newPin, "mouseout", e => {
-        infobox.setOptions({
-          visible: false
+        Maps.Events.addHandler(newPin, "mouseout", e => {
+          infobox.setOptions({
+            visible: false
+          });
         });
+        map.entities.push(newPin);
       });
-      map.entities.push(newPin);
-    });
-  }
+    },
+    []
+  );
 
   // add pushpins
   function addPushpins(pushPinsToAdd, map, Maps) {
@@ -62,6 +65,9 @@ export default function BingMapsReact({
     const options = { ...viewOptions };
     if (viewOptions.mapTypeId) {
       options.mapTypeId = Maps.MapTypeId[viewOptions.mapTypeId];
+    }
+    if (viewOptions.hideRoadLabels) {
+      options.labelOverlay = Maps.LabelOverlay.hidden;
     }
     map.setView(options);
   }
@@ -92,7 +98,7 @@ export default function BingMapsReact({
   const makeMap = useCallback(() => {
     const { Maps } = window.Microsoft;
 
-    // only make a new map if one doesnt already exist
+    // only make a new map if one doesn't already exist
     if (!map.current) {
       map.current = new Maps.Map(mapContainer.current);
     }
@@ -124,9 +130,15 @@ export default function BingMapsReact({
         Maps
       );
     }
-  }, [mapOptions, viewOptions, pushPins, pushPinsWithInfoboxes]);
+  }, [
+    mapOptions,
+    viewOptions,
+    pushPins,
+    pushPinsWithInfoboxes,
+    addPushpinsWithInfoboxes
+  ]);
 
-  // attach makeMap to window for the bingmaps sript callback
+  // attach makeMap to window for the bingmaps script callback
   window.makeMap = makeMap;
 
   // append bingmaps script to body

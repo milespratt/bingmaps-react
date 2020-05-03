@@ -64,6 +64,10 @@ export default function BingMapsReact({
       options.mapTypeId = Maps.MapTypeId[viewOptions.mapTypeId];
     }
 
+    if (viewOptions.hideRoadLabels) {
+      options.labelOverlay = Maps.LabelOverlay.hidden;
+    }
+
     map.setView(options);
   } // set map options
 
