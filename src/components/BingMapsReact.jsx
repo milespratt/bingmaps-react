@@ -31,7 +31,6 @@ export default function BingMapsReact({
       pushPinsToAdd.forEach(pushPin => {
         const newPin = new Maps.Pushpin(pushPin.center, pushPin.options);
         newPin.metadata = pushPin.metadata;
-
         Maps.Events.addHandler(newPin, "mouseover", e => {
           infobox.setOptions({
             location: e.target.getLocation(),

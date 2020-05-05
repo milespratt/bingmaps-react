@@ -59,7 +59,8 @@ export const defaultViewOptions = {
   // center: { latitude: 42.360081, longitude: -71.058884 },
   // centerOffset:
   // heading:
-  // labelOverlay:
+  // labelOverlay: false
+  hideRoadLabels: true
   // mapTypeId: "grayscale"
   // padding:
   // pitch:
