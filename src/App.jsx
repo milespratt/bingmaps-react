@@ -4,17 +4,13 @@ import BingMapsReact from "./components/BingMapsReact";
 // import pngMarker from "./assets/marker.png";
 import logo from "./assets/logo.png";
 
-import { defaultMapOptions } from "./config";
+import { defaultMapOptions, defaultViewOptions } from "./config";
 
 function App() {
   const textArea = useRef(null);
-  const [viewOptions, setViewOptions] = useState({
-    // mapTypeId: "grayscale",
-    center: { latitude: 42.360081, longitude: -71.058884 }
-  });
-  const [mapOptions, setMapOptions] = useState({
-    ...defaultMapOptions
-  });
+  // const [viewOptions, setViewOptions] = useState(defaultViewOptions);
+  const viewOptions = defaultViewOptions;
+  const [mapOptions, setMapOptions] = useState(defaultMapOptions);
   function renderOption(option, value) {
     if (
       option === "navigationBarMode" ||
@@ -118,22 +114,10 @@ function App() {
                 longitude: -71.19325
               },
               options: {
-                // icon: svgMarker,
                 enableHoverStyle: true,
                 title: "Pushpin",
                 subTitle: "With Infobox"
               },
-              infoboxHtml: `
-              <div class="map__infobox">
-                <div class="infobox__user__details">
-                  <div class="infobox__user__image"></div>
-                  <div class="infobox__user__name">
-                    <span>Jane Doe</span>
-                    <a href="#" className="">View Profile</a>
-                  </div>
-                </div>
-                <button>Invite to meetup</button>
-              </div>`,
               metadata: { title: "infobox", description: "description" }
             }
           ]}

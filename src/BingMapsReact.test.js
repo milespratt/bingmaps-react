@@ -11,6 +11,13 @@ jest.useFakeTimers();
 function initGlobal() {
   global.Microsoft = jest.fn();
   global.Microsoft.Maps = jest.fn();
+  global.Microsoft.Maps.Pushpin = jest.fn(() => {
+    return {
+      getLocation: () => {
+        return;
+      }
+    };
+  });
   global.Microsoft.Maps.Map = jest.fn(() => {
     return {
       setOptions: () => {
@@ -25,6 +32,15 @@ function initGlobal() {
       entities: {
         push: () => {
           return;
+        },
+        getLength: () => {
+          return 1;
+        },
+        get: () => {
+          return new global.Microsoft.Maps.Pushpin();
+        },
+        removeAt: () => {
+          return;
         }
       }
     };
@@ -36,13 +52,7 @@ function initGlobal() {
       }
     };
   });
-  global.Microsoft.Maps.Pushpin = jest.fn(() => {
-    return {
-      getLocation: () => {
-        return;
-      }
-    };
-  });
+
   global.Microsoft.Maps.Events = {
     addHandler: () => {
       return;
@@ -52,22 +62,24 @@ function initGlobal() {
   global.Microsoft.Maps.NavigationBarMode = { test: 1 };
   global.Microsoft.Maps.NavigationBarOrientation = { test: 1 };
   global.Microsoft.Maps.MapTypeId = { test: 1 };
+  global.Microsoft.Maps.LabelOverlay = { hidden: 1 };
 }
 
-it("it should wait an interval while script loads", () => {
-  render(<BingMapsReact />);
-  jest.advanceTimersByTime(500);
-  expect(setInterval).toHaveBeenCalledTimes(1);
-  expect(setInterval).toHaveBeenLastCalledWith(expect.any(Function), 500);
-  initGlobal();
-  jest.advanceTimersByTime(500);
-});
+// it("it should call makeMap function when bingmaps script loads script loads", () => {
+//   render(<BingMapsReact />);
+//   expect(makeMap).toHaveBeenCalledTimes(1);
+//   // jest.advanceTimersByTime(500);
+//   // expect(setInterval).toHaveBeenCalledTimes(1);
+//   // expect(setInterval).toHaveBeenLastCalledWith(expect.any(Function), 500);
+//   // initGlobal();
+//   // jest.advanceTimersByTime(500);
+// });
 
-it("should skip the interval if already loaded", () => {
-  initGlobal();
-  render(<BingMapsReact />);
-  expect(setInterval).toHaveBeenCalledTimes(1);
-});
+// it("should skip the interval if already loaded", () => {
+//   initGlobal();
+//   render(<BingMapsReact />);
+//   expect(setInterval).toHaveBeenCalledTimes(1);
+// });
 
 it("should render without any props", () => {
   render(<BingMapsReact />);
@@ -88,7 +100,11 @@ it("should render with custom map options", () => {
 
 it("should render with custom view options", () => {
   initGlobal();
-  render(<BingMapsReact viewOptions={{ mapTypeId: "grayscale" }} />);
+  render(
+    <BingMapsReact
+      viewOptions={{ mapTypeId: "grayscale", hideRoadLabels: true }}
+    />
+  );
 });
 
 it("should render with push pins", () => {
@@ -125,7 +141,6 @@ it("should render with push pins with info boxes", () => {
             title: "Pushpin",
             subTitle: "With Infobox"
           }
-          // metadata: { title: "infobox", description: "description" }
         }
       ]}
     />
