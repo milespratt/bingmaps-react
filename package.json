@@ -20,6 +20,7 @@
   },
   "version": "0.4.9",
   "private": false,
+  "license": "MIT",
   "module": "dist/BingMapsReact.js",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
