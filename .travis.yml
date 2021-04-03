@@ -1,17 +1,18 @@
-language: node_js
-node_js:
-  - node
-cache:
-  directories:
-    - node_modules
-install:
-  - npm install -q --no-color --no-progress
+# single test suite, non-parallel build.
+
+env:
+  global:
+    - CC_TEST_REPORTER_ID=b1aeccf3616bded904e4385595179ec16801f42e170b11e4cf922accf6447509
+language: ruby
+rvm:
+  - 2.2.0
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
 script:
+  - npm install
   - npm run build
-  - npm run testCoverage
+  - npm run test-coverage
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT

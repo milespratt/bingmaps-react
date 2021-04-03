@@ -39,10 +39,10 @@
     ]
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "cross-env BROWSER=none react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "testCoverage": "react-scripts test --coverage --watchAll=false",
+    "test-coverage": "react-scripts test --coverage --watchAll=false",
     "eject": "react-scripts eject",
     "publish:npm": "rm -rf dist && mkdir dist &&  babel src/components -d dist --copy-files && npm publish"
   },
@@ -69,6 +69,7 @@
   "devDependencies": {
     "@babel/cli": "^7.8.4",
     "@babel/preset-react": "^7.8.3",
+    "cross-env": "^7.0.3",
     "react-test-renderer": "^16.12.0"
   }
 }
