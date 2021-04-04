@@ -93,20 +93,6 @@ function App() {
           bingMapsKey={process.env.REACT_APP_BINGMAPS_KEY}
           mapOptions={mapOptions}
           viewOptions={viewOptions}
-          // pushPins={[
-          //   {
-          //     center: {
-          //       latitude: 42.35933,
-          //       longitude: -71.19325
-          //     },
-          //     options: {
-          //       icon: svgMarker,
-          //       enableHoverStyle: true,
-          //       title: "Pushpin",
-          //       subTitle: "Without Infobox"
-          //     }
-          //   }
-          // ]}
           pushPinsWithInfoboxes={[
             {
               center: {

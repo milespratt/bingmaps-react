@@ -4,7 +4,7 @@
   "author": {
     "name": "Miles Pratt",
     "email": "miles@thoughtpowder.com",
-    "url": "https://milespratt.com"
+    "url": "https://github.com/milespratt"
   },
   "keywords": [
     "bing",
@@ -18,7 +18,7 @@
     "type": "git",
     "url": "https://github.com/milespratt/bingmaps-react"
   },
-  "version": "0.4.9",
+  "version": "0.5",
   "module": "dist/BingMapsReact.js",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
@@ -26,7 +26,7 @@
     "@testing-library/user-event": "^7.2.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-scripts": "3.4.0"
+    "react-scripts": "4.0.0"
   },
   "jest": {
     "collectCoverageFrom": [
