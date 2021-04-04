@@ -148,7 +148,7 @@ export default function BingMapsReact({
   useEffect(() => {
     initMap();
   }, [bingMapsKey, initMap]);
-  return React.createElement("div", {
+  return /*#__PURE__*/React.createElement("div", {
     ref: mapContainer,
     style: {
       height: height,
