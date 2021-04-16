@@ -26,6 +26,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.0",
     "@testing-library/user-event": "^7.2.1",
+    "react": ">= 16.12.0",
     "react-dom": "^16.12.0",
     "react-scripts": "4.0.0"
   },
@@ -46,8 +47,7 @@
     "test": "react-scripts test",
     "test-coverage": "react-scripts test --coverage --watchAll=false",
     "eject": "react-scripts eject",
-    "publish:npm": "rm -rf dist && mkdir dist && babel src/components -d dist --copy-files && npm publish",
-    "build:npm": "rm -rf dist && mkdir dist && babel src/components -d dist --copy-files"
+    "publish": "rm -rf dist && mkdir dist && babel src/components -d dist --copy-files && cp README.md dist && cp package-npm.json dist/package.json && cd dist && npm publish"
   },
   "babel": {
     "presets": [

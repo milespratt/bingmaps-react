@@ -126,14 +126,14 @@ export default function BingMapsReact({
     }
   }, [mapOptions, viewOptions, pushPins, pushPinsWithInfoboxes, addPushpinsWithInfoboxes]); // attach makeMap to window for the bingmaps script callback
 
-  window.makeMap = makeMap; // append bingmaps script to body
+  window.makeBingMap = makeMap; // append bingmaps script to body
 
   const appendBingMapsScript = useCallback(() => {
     const scriptTag = document.createElement("script");
     scriptTag.setAttribute("defer", "");
     scriptTag.setAttribute("async", "");
     scriptTag.setAttribute("type", "text/javascript");
-    scriptTag.setAttribute("src", `https://www.bing.com/api/maps/mapcontrol?key=${bingMapsKey}&callback=makeMap`);
+    scriptTag.setAttribute("src", `https://www.bing.com/api/maps/mapcontrol?key=${bingMapsKey}&callback=makeBingMap`);
     document.body.appendChild(scriptTag);
   }, [bingMapsKey]); // make a new map if bingmaps classes already exist
   // append the script if not
