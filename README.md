@@ -33,7 +33,7 @@ import BingMapsReact from "bingmaps-react";
 Render the component, passing in your bing maps API key
 
 ```javascript
-<BingMapsReact bingMapsKey="BING_MAPS_KEY" />
+<BingMapsReact bingMapsKey="your bing maps API key goes here" />
 ```
 
 Minimal Example:
@@ -43,7 +43,7 @@ import React from "react";
 import BingMapsReact from "bingmaps-react";
 
 function MyReactApp() {
-  return <BingMapsReact bingMapsKey="1a2b3c4d5e6f7g8h9i0j" />;
+  return <BingMapsReact bingMapsKey="your bing maps API key goes here" />;
 }
 ```
 
@@ -56,15 +56,15 @@ import BingMapsReact from "bingmaps-react";
 function BingMap() {
   return (
     <BingMapsReact
-      bingMapsKey="1a2b3c4d5e6f7g8h9i0j"
+      bingMapsKey="your bing maps API key goes here"
       height="500px"
       mapOptions={{
-        navigationBarMode: "square"
+        navigationBarMode: "square",
       }}
       width="500px"
       viewOptions={{
         center: { latitude: 42.360081, longitude: -71.058884 },
-        mapTypeId: "grayscale"
+        mapTypeId: "grayscale",
       }}
     />
   );

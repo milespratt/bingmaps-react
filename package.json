@@ -43,10 +43,12 @@
   },
   "scripts": {
     "start": "cross-env BROWSER=none react-scripts start",
-    "build": "react-scripts build",
+    "clean": "rm -rf dist && rm -rf build && rm -rf coverage",
     "test": "react-scripts test",
-    "test-coverage": "react-scripts test --coverage --watchAll=false",
-    "eject": "react-scripts eject",
+    "test:coverage": "react-scripts test --coverage --watchAll=false",
+    "build:test": "babel src/components",
+    "build:demo": "rm -rf build && react-scripts build",
+    "build:npm": "rm -rf dist && mkdir dist && babel src/components -d dist --copy-files && cp README.md dist && cp package-npm.json dist/package.json",
     "publish": "rm -rf dist && mkdir dist && babel src/components -d dist --copy-files && cp README.md dist && cp package-npm.json dist/package.json && cd dist && npm publish"
   },
   "babel": {

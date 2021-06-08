@@ -13,6 +13,9 @@ export default function BingMapsReact({
   // refs
   const mapContainer = useRef(null);
   const map = useRef(null);
+  const scriptURL = useRef(
+    `https://www.bing.com/api/maps/mapcontrol?key=${bingMapsKey}&callback=makeBingMap`
+  );
 
   // removes pushpins
   function removePushpins(map, Maps) {
@@ -29,6 +32,9 @@ export default function BingMapsReact({
     (pushPinsToAdd, infobox, map, Maps) => {
       removePushpins(map, Maps);
       pushPinsToAdd.forEach((pushPin) => {
+        if (pushPin === null) {
+          return;
+        }
         const newPin = new Maps.Pushpin(pushPin.center, pushPin.options);
         newPin.metadata = pushPin.metadata;
         Maps.Events.addHandler(newPin, "mouseover", (e) => {
@@ -54,6 +60,9 @@ export default function BingMapsReact({
   // add pushpins
   function addPushpins(pushPinsToAdd, map, Maps) {
     pushPinsToAdd.forEach((pushPin) => {
+      if (pushPin === null) {
+        return;
+      }
       const newPin = new Maps.Pushpin(pushPin.center, pushPin.options);
       map.entities.push(newPin);
     });
@@ -143,13 +152,8 @@ export default function BingMapsReact({
   // append bingmaps script to body
   const appendBingMapsScript = useCallback(() => {
     const scriptTag = document.createElement("script");
-    scriptTag.setAttribute("defer", "");
-    scriptTag.setAttribute("async", "");
     scriptTag.setAttribute("type", "text/javascript");
-    scriptTag.setAttribute(
-      "src",
-      `https://www.bing.com/api/maps/mapcontrol?key=${bingMapsKey}&callback=makeBingMap`
-    );
+    scriptTag.setAttribute("src", scriptURL.current);
     document.body.appendChild(scriptTag);
   }, [bingMapsKey]);
 
