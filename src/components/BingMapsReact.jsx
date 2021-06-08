@@ -150,12 +150,12 @@ export default function BingMapsReact({
   window.makeBingMap = makeMap;
 
   // append bingmaps script to body
-  const appendBingMapsScript = useCallback(() => {
-    const scriptTag = document.createElement("script");
-    scriptTag.setAttribute("type", "text/javascript");
-    scriptTag.setAttribute("src", scriptURL.current);
-    document.body.appendChild(scriptTag);
-  }, [bingMapsKey]);
+  // const appendBingMapsScript = useCallback(() => {
+  //   const scriptTag = document.createElement("script");
+  //   scriptTag.setAttribute("type", "text/javascript");
+  //   scriptTag.setAttribute("src", scriptURL.current);
+  //   document.body.appendChild(scriptTag);
+  // }, [bingMapsKey]);
 
   // make a new map if bingmaps classes already exist
   // append the script if not
@@ -163,9 +163,12 @@ export default function BingMapsReact({
     if (window.Microsoft && window.Microsoft.Maps) {
       makeMap();
     } else {
-      appendBingMapsScript();
+      const scriptTag = document.createElement("script");
+      scriptTag.setAttribute("type", "text/javascript");
+      scriptTag.setAttribute("src", scriptURL.current);
+      document.body.appendChild(scriptTag);
     }
-  }, [appendBingMapsScript, makeMap]);
+  }, [makeMap]);
 
   useEffect(() => {
     initMap();
