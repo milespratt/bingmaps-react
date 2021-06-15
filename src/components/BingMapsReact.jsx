@@ -5,6 +5,7 @@ export default function BingMapsReact({
   bingMapsKey,
   height,
   mapOptions,
+  onMapReady,
   pushPins,
   pushPinsWithInfoboxes,
   viewOptions,
@@ -13,9 +14,6 @@ export default function BingMapsReact({
   // refs
   const mapContainer = useRef(null);
   const map = useRef(null);
-  const scriptURL = useRef(
-    `https://www.bing.com/api/maps/mapcontrol?key=${bingMapsKey}&callback=makeBingMap`
-  );
 
   // removes pushpins
   function removePushpins(map, Maps) {
@@ -108,7 +106,9 @@ export default function BingMapsReact({
 
     // only make a new map if one doesn't already exist
     if (!map.current) {
-      map.current = new Maps.Map(mapContainer.current);
+      map.current = new Maps.Map(mapContainer.current, {
+        credentials: bingMapsKey,
+      });
     }
     // set viewOptions, if any
     if (viewOptions) {
@@ -138,41 +138,33 @@ export default function BingMapsReact({
         Maps
       );
     }
+    onMapReady && onMapReady();
   }, [
+    addPushpinsWithInfoboxes,
+    bingMapsKey,
     mapOptions,
-    viewOptions,
+    onMapReady,
     pushPins,
     pushPinsWithInfoboxes,
-    addPushpinsWithInfoboxes,
+    viewOptions,
   ]);
 
-  // attach makeMap to window for the bingmaps script callback
-  window.makeBingMap = makeMap;
-
-  // append bingmaps script to body
-  // const appendBingMapsScript = useCallback(() => {
-  //   const scriptTag = document.createElement("script");
-  //   scriptTag.setAttribute("type", "text/javascript");
-  //   scriptTag.setAttribute("src", scriptURL.current);
-  //   document.body.appendChild(scriptTag);
-  // }, [bingMapsKey]);
-
-  // make a new map if bingmaps classes already exist
-  // append the script if not
-  const initMap = useCallback(() => {
+  useEffect(() => {
     if (window.Microsoft && window.Microsoft.Maps) {
       makeMap();
     } else {
       const scriptTag = document.createElement("script");
       scriptTag.setAttribute("type", "text/javascript");
-      scriptTag.setAttribute("src", scriptURL.current);
+      scriptTag.setAttribute(
+        "src",
+        `https://www.bing.com/api/maps/mapcontrol?callback=makeMap`
+      );
+      scriptTag.async = true;
+      scriptTag.defer = true;
       document.body.appendChild(scriptTag);
+      window.makeMap = makeMap;
     }
   }, [makeMap]);
-
-  useEffect(() => {
-    initMap();
-  }, [bingMapsKey, initMap]);
 
   return (
     <div ref={mapContainer} style={{ height: height, width: width }}></div>
@@ -182,6 +174,7 @@ BingMapsReact.defaultProps = {
   bingMapsKey: null,
   mapOptions: null,
   height: "100%",
+  onMapReady: null,
   pushPins: null,
   pushPinsWithInfoboxes: null,
   viewOptions: null,

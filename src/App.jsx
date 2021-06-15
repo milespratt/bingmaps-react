@@ -21,6 +21,7 @@ const types = [
 
 function App() {
   const [pushPins, setPushPins] = useState([]);
+  const [mapReady, setMapReady] = useState(false);
   function addPushPin() {
     Promise.all(
       types.map((type) => {
@@ -57,11 +58,14 @@ function App() {
     });
   }
   useEffect(() => {
-    addPushPin();
-  }, []);
+    if (mapReady) {
+      addPushPin();
+    }
+  }, [mapReady]);
   return (
     <div className="map__container">
       <BingMapsReact
+        // onMapReady={() => setMapReady(true)}
         bingMapsKey={process.env.REACT_APP_BINGMAPS_KEY}
         pushPins={pushPins}
         mapOptions={{
