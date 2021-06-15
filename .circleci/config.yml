@@ -34,6 +34,9 @@ jobs:
       - run:
           name: Test Build
           command: npm run build:test
+      - store_artifacts:
+          path: coverage
+
 
 workflows:
   # Below is the definition of your workflow.
