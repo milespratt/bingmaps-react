@@ -36,7 +36,7 @@ jobs:
           command: npm run build:test
       - store_artifacts:
           path: coverage
-      - store_test_result:
+      - store_test_results:
           path: coverage
 
 
