@@ -37,7 +37,7 @@ jobs:
       - store_artifacts:
           path: coverage
       - store_test_results:
-          path: coverage
+          path: coverage/clover.xml
 
 
 workflows:
