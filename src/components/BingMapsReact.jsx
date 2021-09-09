@@ -138,7 +138,7 @@ export default function BingMapsReact({
         Maps
       );
     }
-    onMapReady && onMapReady();
+    onMapReady && onMapReady({ map });
   }, [
     addPushpinsWithInfoboxes,
     bingMapsKey,
