@@ -57,6 +57,7 @@ export default function BingMapsReact({
 
   // add pushpins
   function addPushpins(pushPinsToAdd, map, Maps) {
+    removePushpins(map, Maps);
     pushPinsToAdd.forEach((pushPin) => {
       if (pushPin === null) {
         return;
