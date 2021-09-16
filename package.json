@@ -43,7 +43,7 @@
   },
   "scripts": {
     "start": "cross-env BROWSER=none react-scripts start",
-    "clean": "rm -rf dist && rm -rf build && rm -rf coverage",
+    "clean": "rm -rf dist && rm -rf build && rm -rf coverage && rm -rf node_modules",
     "test": "react-scripts test",
     "test:coverage": "react-scripts test --coverage --watchAll=false",
     "build:test": "babel src/components",
