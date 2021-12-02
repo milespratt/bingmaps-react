@@ -18,11 +18,12 @@
     "type": "git",
     "url": "https://github.com/milespratt/bingmaps-react"
   },
-  "version": "1.0.2",
+  "version": "1.1.2",
   "private": false,
   "license": "MIT",
   "module": "dist/BingMapsReact.js",
   "dependencies": {
+    "@babel/polyfill": "^7.12.1",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.0",
     "@testing-library/user-event": "^7.2.1",
@@ -48,13 +49,8 @@
     "test:coverage": "react-scripts test --coverage --watchAll=false",
     "build:test": "babel src/components",
     "build:demo": "rm -rf build && react-scripts build",
-    "build:npm": "rm -rf dist && mkdir dist && babel src/components -d dist --copy-files && cp README.md dist && cp package-npm.json dist/package.json",
-    "publish": "rm -rf dist && mkdir dist && babel src/components -d dist --copy-files && cp README.md dist && cp package-npm.json dist/package.json && cd dist && npm publish"
-  },
-  "babel": {
-    "presets": [
-      "@babel/preset-react"
-    ]
+    "build:npm": "rm -rf dist && mkdir dist && babel src/components -d dist --copy-files && cp README.md dist && cp package-npm.json dist/package.json && mv dist/BingMapsReact.js dist/index.js",
+    "publish": "rm -rf dist && mkdir dist && babel src/components -d dist --copy-files && cp README.md dist && cp package-npm.json dist/package.json && mv dist/BingMapsReact.js dist/index.js && cd dist && npm publish"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -72,7 +68,9 @@
     ]
   },
   "devDependencies": {
-    "@babel/cli": "^7.8.4",
+    "@babel/cli": "^7.16.0",
+    "@babel/core": "^7.16.0",
+    "@babel/preset-env": "^7.16.4",
     "@babel/preset-react": "^7.8.3",
     "cross-env": "^7.0.3",
     "react-test-renderer": "^16.12.0"

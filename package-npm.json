@@ -18,10 +18,10 @@
     "type": "git",
     "url": "https://github.com/milespratt/bingmaps-react"
   },
-  "version": "1.1.1",
+  "version": "1.1.4",
   "private": false,
   "license": "MIT",
-  "module": "BingMapsReact.js",
+  "module": "index.js",
   "peerDependencies": {
     "react": ">= 16.12.0"
   }
