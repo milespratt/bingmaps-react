@@ -1,151 +1,96 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import BingMapsReact from "./components/BingMapsReact";
-// import svgMarker from "./assets/marker.svg";
-// import pngMarker from "./assets/marker.png";
-import logo from "./assets/logo.png";
+import EatDrinkIcon from "./assets/EatDrink.svg";
+import SeeDoIcon from "./assets/SeeDo.svg";
 
-import { defaultMapOptions, defaultViewOptions } from "./config";
+import ShopIcon from "./assets/SeeDo.svg";
+import BankIcon from "./assets/Bank.svg";
+import HospitalIcon from "./assets/Hospital.svg";
+import HotelIcon from "./assets/Hotel.svg";
+import ParkingIcon from "./assets/Parking.svg";
+
+const types = [
+  { string: "EatDrink", icon: EatDrinkIcon },
+  { string: "SeeDo", icon: SeeDoIcon },
+  { string: "Shop", icon: ShopIcon },
+  { string: "BanksAndCreditUnions", icon: BankIcon },
+  { string: "Hospitals", icon: HospitalIcon },
+  { string: "HotelsAndMotels", icon: HotelIcon },
+  { string: "Parking", icon: ParkingIcon },
+];
 
 function App() {
-  const textArea = useRef(null);
-  // const [viewOptions, setViewOptions] = useState(defaultViewOptions);
-  const viewOptions = defaultViewOptions;
-  const [mapOptions, setMapOptions] = useState(defaultMapOptions);
-  function renderOption(option, value) {
-    if (
-      option === "navigationBarMode" ||
-      option === "navigationBarOrientation"
-    ) {
-      return (
-        <select
-          value={value}
-          onChange={ev =>
-            setMapOptions({ ...mapOptions, [option]: ev.target.value })
-          }
-        >
-          {option === "navigationBarMode" ? (
-            <>
-              <option value="default">Default</option>
-              <option value="compact">Compact</option>
-              <option value="minified">Minified</option>
-              <option value="square">Square</option>
-            </>
-          ) : (
-            <>
-              <option value="vertical">Vertical</option>
-              <option value="horizontal">Horizontal</option>
-            </>
-          )}
-        </select>
-      );
-    }
-    if (option === "center") {
-      return;
-    }
-    switch (typeof value) {
-      case "boolean":
-        return (
-          <input
-            name={option}
-            checked={value}
-            type="checkbox"
-            onChange={() => setMapOptions({ ...mapOptions, [option]: !value })}
-          />
-        );
-      default:
-        return <span>{value}</span>;
-    }
-  }
-  return (
-    <div className="maps__container">
-      <header>
-        <div>
-          <h1 style={{ marginTop: 0 }}>Bing Maps - React</h1>
-          <p>An easy to use Bing Maps component for React apps.</p>
-          <a href="https://github.com/milespratt/bingmaps-react">
-            Source/Documentation
-          </a>
-        </div>
-        <img style={{ height: "80%", maxHeight: "100px" }} src={logo} alt="" />
-      </header>
-      <div className="map__controls">
-        {Object.keys(mapOptions)
-          .sort((a, b) =>
-            a.toLowerCase() < b.toLowerCase()
-              ? -1
-              : a.toLowerCase() > b.toLowerCase()
-              ? 1
-              : 0
+  const [pushPins, setPushPins] = useState([]);
+  const [mapReady, setMapReady] = useState(false);
+  function addPushPin() {
+    Promise.all(
+      types.map((type) => {
+        return new Promise((resolve, reject) => {
+          fetch(
+            `https://dev.virtualearth.net/REST/v1/LocalSearch/?type=${type.string}&maxResults=25&key=AlpDpw5UDlAS0ta7sxAWrH6r68v6Lfu-jeoDi1wcKzU6wiUxOxHv2kiCih-mFWcc`
           )
-          .filter(option => option !== "customMapStyle")
-          .map(option => {
-            return (
-              <label key={option} htmlFor={option}>
-                {option[0].toUpperCase() +
-                  option.replace(/([a-z])([A-Z])/g, "$1 $2").substring(1)}
-                {renderOption(option, mapOptions[option])}
-              </label>
-            );
-          })}
-      </div>
-      <div key="bingMap" className="map__card">
-        <BingMapsReact
-          bingMapsKey={process.env.REACT_APP_BINGMAPS_KEY}
-          mapOptions={mapOptions}
-          viewOptions={viewOptions}
-          // pushPins={[
-          //   {
-          //     center: {
-          //       latitude: 42.35933,
-          //       longitude: -71.19325
-          //     },
-          //     options: {
-          //       icon: svgMarker,
-          //       enableHoverStyle: true,
-          //       title: "Pushpin",
-          //       subTitle: "Without Infobox"
-          //     }
-          //   }
-          // ]}
-          pushPinsWithInfoboxes={[
-            {
-              center: {
-                latitude: 42.35933,
-                longitude: -71.19325
-              },
-              options: {
-                enableHoverStyle: true,
-                title: "Pushpin",
-                subTitle: "With Infobox"
-              },
-              metadata: { title: "infobox", description: "description" }
-            }
-          ]}
-        />
-      </div>
-      <div className="map__config">
-        {/* <button className="map__config__button">View Map Options</button> */}
-        <button
-          className="map__config__button"
-          onClick={() => {
-            navigator.clipboard.writeText(textArea.current.value);
-          }}
-        >
-          Copy Options to Clipboard
-        </button>
-        <button
-          className="map__config__button"
-          onClick={() => setMapOptions(defaultMapOptions)}
-        >
-          Reset to Defaults
-        </button>
-      </div>
-      <textarea
-        ref={textArea}
-        style={{ display: "none" }}
-        value={JSON.stringify(mapOptions)}
-        readOnly
-      ></textarea>
+            .then((res) => res.json())
+            .then((jsonRes) => {
+              const newPins = jsonRes.resourceSets[0].resources.map(
+                (resource) => {
+                  if (!resource.geocodePoints) {
+                    return null;
+                  }
+                  return {
+                    center: {
+                      latitude: resource.geocodePoints[0]?.coordinates[0],
+                      longitude: resource.geocodePoints[0]?.coordinates[1],
+                    },
+                    options: {
+                      title: resource.name,
+                      icon: type.icon,
+                    },
+                  };
+                }
+              );
+              resolve(newPins);
+            });
+        });
+      })
+    ).then((values) => {
+      const flattenedValues = [].concat(...values);
+      setPushPins(flattenedValues);
+    });
+  }
+  useEffect(() => {
+    if (mapReady) {
+      addPushPin();
+    }
+  }, [mapReady]);
+  return (
+    <div className="map__container">
+      <BingMapsReact
+        // onMapReady={() => setMapReady(true)}
+        bingMapsKey={process.env.REACT_APP_BINGMAPS_KEY}
+        pushPins={pushPins}
+        mapOptions={{
+          enableClickableLogo: false,
+          navigationBarMode: "square",
+          enableHighDpi: true,
+        }}
+        viewOptions={{
+          zoom: 12,
+          customMapStyle: {
+            elements: {
+              area: { fillColor: "#b6e591" },
+              water: { fillColor: "#75cff0" },
+              tollRoad: { fillColor: "#a964f4", strokeColor: "#a964f4" },
+              arterialRoad: { fillColor: "#ffffff", strokeColor: "#d7dae7" },
+              road: { fillColor: "#ffa35a", strokeColor: "#ff9c4f" },
+              street: { fillColor: "#ffffff", strokeColor: "#ffffff" },
+              transit: { fillColor: "#000000" },
+            },
+            settings: {
+              landColor: "#efe9e1",
+            },
+          },
+        }}
+      />
     </div>
   );
 }
