@@ -146,3 +146,15 @@ it("should render with push pins with info boxes", () => {
     />
   );
 });
+
+it("should return the map reference on mapReady", () => {
+  initGlobal();
+  render(
+    <BingMapsReact
+      onMapReady={({ map }) => {
+        expect(map).toHaveProperty('current')
+        expect(Object.keys(map.current)).toEqual(['setOptions', 'setView', 'getCenter', 'entities'])
+      }}
+    />
+  );
+});
