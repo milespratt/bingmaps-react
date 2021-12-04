@@ -18,7 +18,8 @@
     "type": "git",
     "url": "https://github.com/milespratt/bingmaps-react"
   },
-  "version": "1.1.4",
+  "typings": "./index.d.ts",
+  "version": "1.1.5",
   "private": false,
   "license": "MIT",
   "module": "index.js",
