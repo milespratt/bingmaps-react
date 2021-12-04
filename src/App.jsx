@@ -22,50 +22,6 @@ const types = [
 function App() {
   const [pushPins, setPushPins] = useState([]);
   const [mapReady, setMapReady] = useState(false);
-  const [map, setMap] = useState(null);
-  const [polygonAdded, setPolygonAdded] = useState(false);
-
-  // https://docs.microsoft.com/en-us/bingmaps/v8-web-control/map-control-concepts/geojson-module-examples/read-local-geojson-object-example
-  function drawPolygon() {
-    if (!polygonAdded) {
-      const myGeoJson = {
-        coordinates: [
-          [
-            [-222.6264758, 34.789661],
-            [-222.6889734, 34.7861691],
-            [-222.6362328, 34.765536],
-            [-222.6582792, 34.7179505],
-            [-222.6070504, 34.7486121],
-            [-222.5641532, 34.7179882],
-            [-222.5785546, 34.759613],
-            [-222.530398, 34.7860953],
-            [-222.595456, 34.7881909],
-            [-222.6083834, 34.8318783],
-            [-222.6264758, 34.789661],
-          ],
-        ],
-        type: "Polygon",
-      };
-
-      //Load the GeoJson Module.
-      window.Microsoft.Maps.loadModule("Microsoft.Maps.GeoJson", function () {
-        //Parse the GeoJson object into a Bing Maps shape.
-        const shape = window.Microsoft.Maps.GeoJson.read(myGeoJson, {
-          polygonOptions: {
-            fillColor: "#0d8f2b7f",
-            strokeColor: "#0d8f2b",
-            strokeThickness: 5,
-          },
-        });
-
-        //Add the shape to the map.
-        if (!polygonAdded) {
-          map.current.entities.push(shape);
-          setPolygonAdded(true);
-        }
-      });
-    }
-  }
 
   function addPushPin() {
     Promise.all(
@@ -102,19 +58,19 @@ function App() {
       setPushPins(flattenedValues);
     });
   }
+
   useEffect(() => {
     if (mapReady) {
       addPushPin();
     }
   }, [mapReady]);
+
   return (
     <div className="map__container">
       <BingMapsReact
-        // onMapReady={({ map }) => {
-        //   setMapReady(true);
-        //   setMap(map);
-        //   drawPolygon();
-        // }}
+        onMapReady={({map}) => {
+          setMapReady(true);
+        }}
         bingMapsKey={process.env.REACT_APP_BINGMAPS_KEY}
         pushPins={pushPins}
         mapOptions={{
