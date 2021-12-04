@@ -56,7 +56,7 @@ export default function BingMapsReact({
   );
 
   // add pushpins
-  function addPushpins(pushPinsToAdd, map, Maps) {
+  const addPushpins = useCallback((pushPinsToAdd, map, Maps) => {
     removePushpins(map, Maps);
     pushPinsToAdd.forEach((pushPin) => {
       if (pushPin === null) {
@@ -65,7 +65,7 @@ export default function BingMapsReact({
       const newPin = new Maps.Pushpin(pushPin.center, pushPin.options);
       map.entities.push(newPin);
     });
-  }
+  },[])
 
   // set view options
   function setMapViewOptions(map, viewOptions, Maps) {
@@ -139,9 +139,10 @@ export default function BingMapsReact({
         Maps
       );
     }
-    onMapReady && onMapReady();
+    onMapReady && onMapReady({ map });
   }, [
     addPushpinsWithInfoboxes,
+    addPushpins,
     bingMapsKey,
     mapOptions,
     onMapReady,

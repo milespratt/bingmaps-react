@@ -22,6 +22,7 @@ const types = [
 function App() {
   const [pushPins, setPushPins] = useState([]);
   const [mapReady, setMapReady] = useState(false);
+
   function addPushPin() {
     Promise.all(
       types.map((type) => {
@@ -57,15 +58,19 @@ function App() {
       setPushPins(flattenedValues);
     });
   }
+
   useEffect(() => {
     if (mapReady) {
       addPushPin();
     }
   }, [mapReady]);
+
   return (
     <div className="map__container">
       <BingMapsReact
-        // onMapReady={() => setMapReady(true)}
+        onMapReady={({map}) => {
+          setMapReady(true);
+        }}
         bingMapsKey={process.env.REACT_APP_BINGMAPS_KEY}
         pushPins={pushPins}
         mapOptions={{
@@ -74,6 +79,7 @@ function App() {
           enableHighDpi: true,
         }}
         viewOptions={{
+          // center: { latitude: 34.7689, longitude: 137.3917 },
           zoom: 12,
           customMapStyle: {
             elements: {
