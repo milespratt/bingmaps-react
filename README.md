@@ -102,6 +102,8 @@ To add Pushpins to the map, pass in an array of pushpin objects to the `pushPins
 - `options`: an object with [Pushpin options](https://docs.microsoft.com/en-us/bingmaps/v8-web-control/map-control-api/pushpinoptions-object);
 
 ```javascript
+...
+
 const pushPin = {
   center: {
     latitude: 27.987850,
@@ -114,9 +116,13 @@ const pushPin = {
 
 const pushPins = [pushPin];
 
-<BingMapsReact
-  pushPins={pushPins}
-  viewOptions={{ center: { latitude: 27.98785, longitude: 86.925026 } }}
-/>
+return (
+  <BingMapsReact
+    pushPins={pushPins}
+    viewOptions={{ center: { latitude: 27.98785, longitude: 86.925026 } }}
+  />
+)
+
+...
 ```
 <img align="center" width="500" height="500" src="https://github.com/milespratt/bingmaps-react/blob/master/src/assets/example-pushpin.png?raw=true">
