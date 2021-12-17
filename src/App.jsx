@@ -32,6 +32,7 @@ function App() {
           )
             .then((res) => res.json())
             .then((jsonRes) => {
+              console.log(jsonRes);
               const newPins = jsonRes.resourceSets[0].resources.map(
                 (resource) => {
                   if (!resource.geocodePoints) {
@@ -68,7 +69,7 @@ function App() {
   return (
     <div className="map__container">
       <BingMapsReact
-        onMapReady={({map}) => {
+        onMapReady={({ map }) => {
           setMapReady(true);
         }}
         bingMapsKey={process.env.REACT_APP_BINGMAPS_KEY}
@@ -77,6 +78,7 @@ function App() {
           enableClickableLogo: false,
           navigationBarMode: "square",
           enableHighDpi: true,
+          showTermsLink: false,
         }}
         viewOptions={{
           // center: { latitude: 34.7689, longitude: 137.3917 },
