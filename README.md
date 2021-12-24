@@ -3,11 +3,12 @@
 
 <img align="right" width="100" height="100" src="https://github.com/milespratt/bingmaps-react/blob/master/src/assets/logo.png?raw=true" />
 
+
 # Bing Maps - React
 
 An easy to use Bing Maps component for React apps. View the demo [here](https://bingmaps-react.netlify.com).
 
-<img style="object-fit: cover" align="center" width="500" height="500" src="https://github.com/milespratt/bingmaps-react/blob/master/src/assets/example.png?raw=true" />
+<img align="center" width="500" src="https://github.com/milespratt/bingmaps-react/blob/master/src/assets/example.png?raw=true" />
 
 - [Bing Maps - React](#bing-maps---react)
   - [Prerequisites](#prerequisites)
@@ -125,4 +126,4 @@ return (
 
 ...
 ```
-<img style="object-fit: cover" align="center" width="500" height="500" src="https://github.com/milespratt/bingmaps-react/blob/master/src/assets/example-pushpin.png?raw=true">
+<img  align="center" width="500" src="https://github.com/milespratt/bingmaps-react/blob/master/src/assets/example-pushpin.png?raw=true">

@@ -11,15 +11,21 @@
     "maps",
     "bingmaps",
     "bing maps",
+    "bingmaps react",
+    "bing maps react",
+    "react bingmaps",
     "react bing maps",
-    "microsoft bingmaps"
+    "microsoft bingmaps",
+    "microsoft bing maps",
+    "microsoft bingmaps react",
+    "microsoft bing maps react"
   ],
   "repository": {
     "type": "git",
     "url": "https://github.com/milespratt/bingmaps-react"
   },
   "typings": "./index.d.ts",
-  "version": "1.1.9",
+  "version": "1.1.10",
   "private": false,
   "license": "MIT",
   "module": "index.js",
