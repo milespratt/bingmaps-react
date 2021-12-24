@@ -7,7 +7,7 @@
 
 An easy to use Bing Maps component for React apps. View the demo [here](https://bingmaps-react.netlify.com).
 
-<img align="center" width="500" height="500" src="https://github.com/milespratt/bingmaps-react/blob/master/src/assets/example.png?raw=true" />
+<img style="object-fit: cover" align="center" width="500" height="500" src="https://github.com/milespratt/bingmaps-react/blob/master/src/assets/example.png?raw=true" />
 
 - [Bing Maps - React](#bing-maps---react)
   - [Prerequisites](#prerequisites)
@@ -125,4 +125,4 @@ return (
 
 ...
 ```
-<img align="center" width="500" height="500" src="https://github.com/milespratt/bingmaps-react/blob/master/src/assets/example-pushpin.png?raw=true">
+<img style="object-fit: cover" align="center" width="500" height="500" src="https://github.com/milespratt/bingmaps-react/blob/master/src/assets/example-pushpin.png?raw=true">
