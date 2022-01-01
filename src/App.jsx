@@ -47,6 +47,18 @@ function App() {
                       title: resource.name,
                       icon: type.icon,
                     },
+                    infobox: {
+                      closeDelayTime: 100,
+                      description: `<a target="_blank" rel="noopener noreferrer" href="${resource.Website}">${resource.Website}</a>`,
+                      // htmlContent: `<div>${resource.name}</div>,`,
+                      // maxHeight: 5000,
+                      // maxWidth
+                      // showCloseButton
+                      // showPointer
+                      // title: e.target.metadata.title,
+                      title: resource.name,
+                      zIndex: 1000,
+                    },
                   };
                 }
               );
@@ -73,7 +85,8 @@ function App() {
           setMapReady(true);
         }}
         bingMapsKey={process.env.REACT_APP_BINGMAPS_KEY}
-        pushPins={pushPins}
+        // pushPins={pushPins}
+        pushPinsWithInfoboxes={pushPins}
         mapOptions={{
           enableClickableLogo: false,
           navigationBarMode: "square",

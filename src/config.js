@@ -1,7 +1,7 @@
 export const defaultMapOptions = {
   allowHidingLabelsOfRoad: false, // This property can only be set when using the Map constructor.
   allowInfoboxOverflow: false,
-  backgroundColor: "#EAE8E1", // This property can only be set when using the Map constructor.
+  backgroundColor: "#2b2b2b", // This property can only be set when using the Map constructor.
   customMapStyle: {
     elements: {
       area: { fillColor: "#b6e591" },
@@ -10,11 +10,11 @@ export const defaultMapOptions = {
       arterialRoad: { fillColor: "#ffffff", strokeColor: "#d7dae7" },
       road: { fillColor: "#ffa35a", strokeColor: "#ff9c4f" },
       street: { fillColor: "#ffffff", strokeColor: "#ffffff" },
-      transit: { fillColor: "#000000" }
+      transit: { fillColor: "#000000" },
     },
     settings: {
-      landColor: "#efe9e1"
-    }
+      landColor: "#efe9e1",
+    },
   },
   disableBirdseye: false, // This property can only be set when using the Map constructor.
   disableKeyboardInput: false,
@@ -41,7 +41,7 @@ export const defaultMapOptions = {
   showScalebar: true, // This property can only be set when using the Map constructor.
   showTrafficButton: false,
   showTermsLink: true, // This property can only be set when using the Map constructor.
-  showZoomButtons: true // This property can only be set when using the Map constructor.
+  showZoomButtons: true, // This property can only be set when using the Map constructor.
   // streetsideOptions: ,
   // supportedMapTypes: [
   //   "aerial",
@@ -60,7 +60,7 @@ export const defaultViewOptions = {
   // centerOffset:
   // heading:
   // labelOverlay: false
-  hideRoadLabels: true
+  hideRoadLabels: true,
   // mapTypeId: "grayscale"
   // padding:
   // pitch:

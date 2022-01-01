@@ -34,14 +34,17 @@ export default function BingMapsReact({
           return;
         }
         const newPin = new Maps.Pushpin(pushPin.center, pushPin.options);
-        newPin.metadata = pushPin.metadata;
+        newPin.metadata = {
+          ...pushPin.options,
+        };
         Maps.Events.addHandler(newPin, "mouseover", (e) => {
           infobox.setOptions({
-            location: e.target.getLocation(),
             title: e.target.metadata.title,
             description: e.target.metadata.description,
+            htmlContent: pushPin.infobox?.infoboxHtml || pushPin.infoboxHtml,
+            location: newPin.getLocation(),
             visible: true,
-            htmlContent: pushPin.infoboxHtml,
+            ...pushPin.infobox,
           });
         });
         Maps.Events.addHandler(newPin, "mouseout", (e) => {
@@ -65,7 +68,7 @@ export default function BingMapsReact({
       const newPin = new Maps.Pushpin(pushPin.center, pushPin.options);
       map.entities.push(newPin);
     });
-  },[])
+  }, []);
 
   // set view options
   function setMapViewOptions(map, viewOptions, Maps) {

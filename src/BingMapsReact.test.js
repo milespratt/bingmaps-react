@@ -15,7 +15,7 @@ function initGlobal() {
     return {
       getLocation: () => {
         return;
-      }
+      },
     };
   });
   global.Microsoft.Maps.Map = jest.fn(() => {
@@ -41,22 +41,22 @@ function initGlobal() {
         },
         removeAt: () => {
           return;
-        }
-      }
+        },
+      },
     };
   });
   global.Microsoft.Maps.Infobox = jest.fn(() => {
     return {
       setMap: () => {
         return;
-      }
+      },
     };
   });
 
   global.Microsoft.Maps.Events = {
     addHandler: () => {
       return;
-    }
+    },
   };
 
   global.Microsoft.Maps.NavigationBarMode = { test: 1 };
@@ -64,22 +64,6 @@ function initGlobal() {
   global.Microsoft.Maps.MapTypeId = { test: 1 };
   global.Microsoft.Maps.LabelOverlay = { hidden: 1 };
 }
-
-// it("it should call makeMap function when bingmaps script loads script loads", () => {
-//   render(<BingMapsReact />);
-//   expect(makeMap).toHaveBeenCalledTimes(1);
-//   // jest.advanceTimersByTime(500);
-//   // expect(setInterval).toHaveBeenCalledTimes(1);
-//   // expect(setInterval).toHaveBeenLastCalledWith(expect.any(Function), 500);
-//   // initGlobal();
-//   // jest.advanceTimersByTime(500);
-// });
-
-// it("should skip the interval if already loaded", () => {
-//   initGlobal();
-//   render(<BingMapsReact />);
-//   expect(setInterval).toHaveBeenCalledTimes(1);
-// });
 
 it("should render without any props", () => {
   render(<BingMapsReact />);
@@ -92,7 +76,7 @@ it("should render with custom map options", () => {
       mapOptions={{
         navigationBarMode: "test",
         navigationBarOrientation: "test",
-        supportedMapTypes: ["test"]
+        supportedMapTypes: ["test"],
       }}
     />
   );
@@ -115,13 +99,13 @@ it("should render with push pins", () => {
         {
           center: {
             latitude: 42.35933,
-            longitude: -71.19325
+            longitude: -71.19325,
           },
           options: {
             title: "Pushpin",
-            subTitle: "Without Infobox"
-          }
-        }
+            subTitle: "Without Infobox",
+          },
+        },
       ]}
     />
   );
@@ -135,13 +119,13 @@ it("should render with push pins with info boxes", () => {
         {
           center: {
             latitude: 42.35933,
-            longitude: -71.19325
+            longitude: -71.19325,
           },
           options: {
             title: "Pushpin",
-            subTitle: "With Infobox"
-          }
-        }
+            subTitle: "With Infobox",
+          },
+        },
       ]}
     />
   );
@@ -152,8 +136,13 @@ it("should return the map reference on mapReady", () => {
   render(
     <BingMapsReact
       onMapReady={({ map }) => {
-        expect(map).toHaveProperty('current')
-        expect(Object.keys(map.current)).toEqual(['setOptions', 'setView', 'getCenter', 'entities'])
+        expect(map).toHaveProperty("current");
+        expect(Object.keys(map.current)).toEqual([
+          "setOptions",
+          "setView",
+          "getCenter",
+          "entities",
+        ]);
       }}
     />
   );
