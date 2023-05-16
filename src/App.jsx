@@ -32,7 +32,6 @@ function App() {
           )
             .then((res) => res.json())
             .then((jsonRes) => {
-              console.log(jsonRes);
               const newPins = jsonRes.resourceSets[0].resources.map(
                 (resource) => {
                   if (!resource.geocodePoints) {

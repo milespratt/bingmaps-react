@@ -7,6 +7,7 @@ export default function BingMapsReact({
   mapOptions,
   onMapReady,
   pushPins,
+  clusterPins,
   pushPinsWithInfoboxes,
   viewOptions,
   width,
@@ -129,6 +130,16 @@ export default function BingMapsReact({
       addPushpins(pushPins, map.current, Maps);
     }
 
+    if (clusterPins) {
+      Maps.loadModule('Microsoft.Maps.Clustering', function () {
+        var pushpins = clusterPins.map(function (location) {
+          return new Maps.Pushpin(location.center, location.options)
+        })
+        var clusterLayer = new Maps.ClusterLayer(pushpins, { gridSize: 100 })
+        map.current.layers.insert(clusterLayer)
+      })
+    }
+
     // add infoboxes, if any
     if (pushPinsWithInfoboxes) {
       const infobox = new Maps.Infobox(map.current.getCenter(), {
@@ -150,6 +161,7 @@ export default function BingMapsReact({
     mapOptions,
     onMapReady,
     pushPins,
+    clusterPins,
     pushPinsWithInfoboxes,
     viewOptions,
   ]);
@@ -181,6 +193,7 @@ BingMapsReact.defaultProps = {
   height: "100%",
   onMapReady: null,
   pushPins: null,
+  clusterPins: null,
   pushPinsWithInfoboxes: null,
   viewOptions: null,
   width: "100%",
