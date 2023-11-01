@@ -2,14 +2,14 @@
 import React, { useEffect, useRef, useCallback } from "react";
 
 export default function BingMapsReact({
-  bingMapsKey,
-  height,
-  mapOptions,
-  onMapReady,
-  pushPins,
-  pushPinsWithInfoboxes,
-  viewOptions,
-  width,
+  bingMapsKey = null,
+  height = '100%',
+  mapOptions = null,
+  onMapReady = null,
+  pushPins = null,
+  pushPinsWithInfoboxes = null,
+  viewOptions = null,
+  width = '100%',
 }) {
   // refs
   const mapContainer = useRef(null);
@@ -175,13 +175,3 @@ export default function BingMapsReact({
     <div ref={mapContainer} style={{ height: height, width: width }}></div>
   );
 }
-BingMapsReact.defaultProps = {
-  bingMapsKey: null,
-  mapOptions: null,
-  height: "100%",
-  onMapReady: null,
-  pushPins: null,
-  pushPinsWithInfoboxes: null,
-  viewOptions: null,
-  width: "100%",
-};
