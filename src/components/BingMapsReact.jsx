@@ -3,8 +3,8 @@ import React, { useEffect, useRef, useCallback } from "react";
 
 export default function BingMapsReact({
   bingMapsKey = null,
-  mapOption = null,
   height = "100%",
+  mapOptions = null,
   onMapReady = null,
   pushPins = null,
   pushPinsWithInfoboxes = null,
